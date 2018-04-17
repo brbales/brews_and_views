@@ -1,0 +1,75 @@
+/* Remove the navbar's default margin-bottom and rounded borders */
+
+.navbar-inverse {
+  margin-bottom: 0;
+  border-radius: 0;
+  background-color: #771B1B;
+  color: #a6d49f;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-family: 'Lobster', cursive;
+  font-size: 30px;
+}
+
+/* Add a gray background color and some padding to the footer */
+.navbar-nav > .inactive > a:hover {
+  /* background-color: #9CB380 !important; */
+  color: #A6D49F !important;
+}
+
+.navbar-nav > .active > a:hover {
+  background-color: #9CB380 !important;
+  color: #EDEB87 !important;
+}
+
+.navbar-nav.navbar-center {
+  position: absolute;
+  left: 50%;
+  transform: translatex(-50%);
+}
+
+.navbar-brand {
+  font-family: 'Lobster', cursive;
+  font-size: 45px;
+  color: #dfb772 !important;
+}
+
+
+
+.navbar-nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.navbar-inverse .navbar-nav>.active>a {
+  background-color: #A6D49F;
+  color: #C73E1D;
+}
+
+.navbar-inverse .navbar-nav>.inactive>a {
+  color: white;
+}
+
+
+
+footer {
+  background-color: #f2f2f2;
+  padding: 25px;
+}
+
+.carousel-inner img {
+  width: 100%;
+  /* Set width to 100% */
+  margin: auto;
+  min-height: 200px;
+}
+
+/* Hide the carousel text when the screen is less than 600 pixels wide */
+
+@media (max-width: 600px) {
+  .carousel-caption {
+    display: none;
+  }
+}
