@@ -66,8 +66,8 @@
         <img src="https://s3-eu-west-1.amazonaws.com/openmondo/events/backgrounds/site_9/evento-pitoti-beer-fest-595b50f1bcf06.jpg"
           alt="Image">
         <div class="carousel-caption">
-          <h3>Style Solver</h3>
-          <p>Simply input the Color, ABV, and IBU values and figure out what style you made!</p>
+          <h3>Neural Networks - Competing with your Local Beer Snob</h3>
+          <p>We've had some fun with neural networks and unsupervised clustering to develop models to do two things: (1) predict beer styles based on physical characteristics, and (2) characterize beer "clusters" based on a set of key parameters. Model 2 (our favorite), results in latent, math-based classifications (or "clusters") of beer types a little different from your typical "IPA" vs "Stout" vs "Blonde" categories. Have fun playing with the tools below!</p>
         </div>
       </div>
 
@@ -92,9 +92,7 @@
   </div>
 
   <div class="container text-center">
-    <h3>Beer and Math - Competing with your Local Beer Snob</h3>
-    <br>
-    <div class="row">
+      <div class="row">
       <div class="col-sm-6">
         <h3>Style Solver</h3>
         <p>We've tried to classify home brews into 10 broad categories... not an easy task (and lots of interpretation). Tell us a few things about your beer, and see if we can guess where it falls.</p>
@@ -113,14 +111,14 @@
       </div>
       <div class="col-sm-6">
         <h3>Try Something New!</h3>
-        <p>Take a chance and try something new - we've used a neural network to categorize beers into "clusters" based on their characteristics - slicing and dicing in a way that's a little different from your typical "IPA" vs "Stout" vs "Blonde" categories. Pick a style you like, and a beer within that style (from the list). We'll give you suggestions of other beers with similar characteristics we think you would like!<p>
+        <p>Take a chance and try something new. Pick a style you like, and a beer within that style (from the list). We'll give you suggestions of other beers with similar characteristics we think you'd enjoy!<p>
         <div class="row-fluid">
           <form method="POST">
             <select class="selectpicker" data-live-search-style="startwith" data-show-subtext="true" data-live-search="true" id="styles_dropdown"
-              title="Choose your favorite style!" name="style">
+              title="Choose a style" name="style">
             </select>
             <select class="selectpicker" data-live-search-style="startwith" data-show-subtext="true" data-live-search="true" id="beers_dropdown"
-              title="Choose your favorite beer!" name="beer" disabled>
+              title="Choose a beer" name="beer" disabled>
             </select>
           </form>
         </div>
