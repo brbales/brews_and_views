@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    /* var datas = $.get("/style", function (style) {
+     var datas = $.get("/style", function (style) {
         $.ajax({
             type: "GET",
             url: "http://localhost:5000/",
@@ -8,14 +8,14 @@ $(document).ready(function () {
             success:
                 $.each(style, function(index,value){
                     console.log(value);
-                    $("#style_dropdown").append('<option>'+value+"</option>").selectpicker('refresh')
+                    $("#styles_dropdown").append('<option>'+value+"</option>").selectpicker('refresh')
                 })
 
 
         })
-    }); */
+    }); 
 
-    var datas = $.get("/names", function (style) {
+   /*  var datas = $.get("/names", function (style) {
         $.ajax({
             type: "GET",
             url: "http://localhost:5000/",
@@ -29,5 +29,20 @@ $(document).ready(function () {
 
 
         })
-    });
+    }); */
 })
+
+$('select[name="country"]').on('change', function() {
+    var countryId = $(this).val();
+
+    $.ajax({
+        type: "POST",
+        url: "get-province.php",
+        data: {country : countryId },
+        success: function (data) {
+                    //remove disabled from province and change the options
+                    $('select[name="province"]').prop("disabled", false);
+                    $('select[name="province"]').html(data.response);
+        }
+    });
+});
