@@ -19,6 +19,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/i18n/defaults-*.min.js"></script>
 
   <link rel="stylesheet" href="../static/style.css">
+  <script src="../static/index.js"></script>
 </head>
 
 <body>
@@ -45,9 +46,6 @@
             <a href="#">Style Solver</a>
           </li>
           <li class="inactive">
-            <a href="#">Recipe Trends</a>
-          </li>
-          <li class="inactive">
             <a href="#">Try Something New</a>
           </li>
         </ul>
@@ -65,10 +63,10 @@
     <!-- Wrapper for slides -->
     <div class="carousel-inner" role="listbox">
       <div class="item active">
-        <img src="https://placehold.it/1800x500?text=IMAGE" alt="Image">
+        <img src="https://s3-eu-west-1.amazonaws.com/openmondo/events/backgrounds/site_9/evento-pitoti-beer-fest-595b50f1bcf06.jpg" alt="Image">
         <div class="carousel-caption">
-          <h3>Sell $</h3>
-          <p>Money Money.</p>
+          <h3>Style Solver</h3>
+          <p>Simply input the Color, ABV, and IBU values and figure out what style you made!</p>
         </div>
       </div>
 
@@ -96,41 +94,27 @@
     <h3>What We Do</h3>
     <br>
     <div class="row">
-      <div class="col-sm-4">
+      <div class="col-sm-6">
         <p>Style Solver</p>
         <div class="input-group">
           <input type="text" class="form-control" placeholder="Color" aria-describedby="basic-addon1">
           <input type="text" class="form-control" placeholder="ABV" aria-describedby="basic-addon1">
           <input type="text" class="form-control" placeholder="IBU" aria-describedby="basic-addon1">
-          
+
         </div>
         <span class="input-group-btn">
-            <button class="btn btn-default" type="button" id="style_search">Search!</button>
-          </span>
+          <button class="btn btn-default" type="button" id="style_search">Search!</button>
+        </span>
 
       </div>
-      <div class="col-sm-4">
-        <p>Recipe Trends</p>
-        <div class="dropdown">
-          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="true">
-            Choose Your Style!
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" id="styleSelectorDropDown">
-          </ul>
-        </div>
-      </div>
-      <div class="col-sm-4">
+      <div class="col-sm-6">
         <p>Try Something New!</p>
         <div class="row-fluid">
-          <select class="selectpicker" data-live-search-style="startwith" data-show-subtext="true" data-live-search="true" id="beers_dropdown">
-            <option data-subtext="Rep California">Tom Foolery</option>
-            <option data-subtext="Sen California">Bill Gordon</option>
-            <option data-subtext="Sen Massacusetts">Elizabeth Warren</option>
-            <option data-subtext="Rep Alabama">Mario Flores</option>
-            <option data-subtext="Rep Alaska">Don Young</option>
-            <option data-subtext="Rep California">Marvin Martinez</option>
+          <select class="selectpicker" data-live-search-style="startwith" data-show-subtext="true" data-live-search="true" id="styles_dropdown"
+            title="Choose your favorite style!" name="style">
+          </select>
+          <select class="selectpicker" data-live-search-style="startwith" data-show-subtext="true" data-live-search="true" id="beers_dropdown"
+            title="Choose your favorite beer!" name = "beer" disabled>
           </select>
         </div>
       </div>
@@ -143,6 +127,6 @@
   </footer>
 
 </body>
-<script src="static/index.js"></script>
+
 
 </html>
