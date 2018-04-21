@@ -92,11 +92,12 @@
   </div>
 
   <div class="container text-center">
-    <h3>What We Do</h3>
+    <h3>Beer and Math - Competing with your Local Beer Snob</h3>
     <br>
     <div class="row">
       <div class="col-sm-6">
-        <p>Style Solver</p>
+        <h3>Style Solver</h3>
+        <p>We've tried to classify home brews into 10 broad categories... not an easy task (and lots of interpretation). Tell us a few things about your beer, and see if we can guess where it falls.</p>
         <form method="POST">
           <div class="input-group">
             <input type="text" class="form-control" placeholder="Color" aria-describedby="basic-addon1" name = "color">
@@ -111,7 +112,8 @@
         <p>returned values: {{ color }}, {{ abv }}, {{ ibu }}</p>
       </div>
       <div class="col-sm-6">
-        <p>Try Something New!</p>
+        <h3>Try Something New!</h3>
+        <p>Take a chance and try something new - we've used a neural network to categorize beers into "clusters" based on their characteristics - slicing and dicing in a way that's a little different from your typical "IPA" vs "Stout" vs "Blonde" categories. Pick a style you like, and a beer within that style (from the list). We'll give you suggestions of other beers with similar characteristics we think you would like!<p>
         <div class="row-fluid">
           <form method="POST">
             <select class="selectpicker" data-live-search-style="startwith" data-show-subtext="true" data-live-search="true" id="styles_dropdown"
@@ -128,7 +130,7 @@
   <br>
 
   <footer class="container-fluid text-center">
-    <p>Footer Text</p>
+    <p>You're reached the bottom - time to pour another.</p>
   </footer>
 
 </body>
