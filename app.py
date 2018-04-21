@@ -86,14 +86,11 @@ if request.method == 'POST':
      #ETHAN pick up her - write a query to pull and display names and style, abv, ibu, and color for 5
      #random beers of the same cluster... starter code below
 
-    all_clustered = db.session.query(Beer.abv, Beer.ibu, Beer.color)\
+    rec_beer_info = db.session.query(Beer.name, Beer.style, Beer.abv, Beer.ibu, Beer.color)\
     .filter(Beer.cluster_7param = selected_beer_cluster)\
     .filter(Beer.name != selected_beer)\
     .order_by(func.random(5))
     
-
-    rec_beer_info = db.session.query(Beer.name, Beer.style,Beer.abv,Beer.ibu, Beer.color)
-    .filter(Beer.cluster_7param = selected_beer_cluster)
 
     return rec_beer_info
 
