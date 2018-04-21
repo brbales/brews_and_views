@@ -32,7 +32,7 @@ $(document).ready(function () {
     }); */
 })
 
-$('select[name="country"]').on('change', function() {
+/* $('select[name="country"]').on('change', function() {
     var countryId = $(this).val();
 
     $.ajax({
@@ -45,4 +45,4 @@ $('select[name="country"]').on('change', function() {
                     $('select[name="province"]').html(data.response);
         }
     });
-});
+}); */

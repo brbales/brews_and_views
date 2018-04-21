@@ -45,9 +45,15 @@ class Beer(db.Model):
     last_upadted = db.Column(db.Float(20))
 
 
-@app.route("/")
+@app.route("/", methods = ['GET','POST'])
 def index():
-    return render_template('index.html')
+    if request.method == "POST":
+        color = request.form['color']
+        abv = request.form['abv']
+        ibu = request.form['ibu']
+        return render_template('index.html', color = color, abv = abv, ibu = ibu)
+    else:
+        return render_template('index.html')
 
 @app.route('/style')
 def style():
