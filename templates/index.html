@@ -19,6 +19,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/i18n/defaults-*.min.js"></script>
 
   <link rel="stylesheet" href="../static/style.css">
+  <script src="../static/index.js"></script>
 </head>
 
 <body>
@@ -45,9 +46,6 @@
             <a href="#">Style Solver</a>
           </li>
           <li class="inactive">
-            <a href="#">Recipe Trends</a>
-          </li>
-          <li class="inactive">
             <a href="#">Try Something New</a>
           </li>
         </ul>
@@ -65,10 +63,11 @@
     <!-- Wrapper for slides -->
     <div class="carousel-inner" role="listbox">
       <div class="item active">
-        <img src="https://placehold.it/1800x500?text=IMAGE" alt="Image">
+        <img src="https://s3-eu-west-1.amazonaws.com/openmondo/events/backgrounds/site_9/evento-pitoti-beer-fest-595b50f1bcf06.jpg"
+          alt="Image">
         <div class="carousel-caption">
-          <h3>Sell $</h3>
-          <p>Money Money.</p>
+          <h3>Neural Networks - Competing with your Local Beer Snob</h3>
+          <p>We've had some fun with neural networks and unsupervised clustering to develop models to do two things: (1) predict beer styles based on physical characteristics, and (2) characterize beer "clusters" based on a set of key parameters. Model 2 (our favorite), results in latent, math-based classifications (or "clusters") of beer types a little different from your typical "IPA" vs "Stout" vs "Blonde" categories. Have fun playing with the tools below!</p>
         </div>
       </div>
 
@@ -93,45 +92,35 @@
   </div>
 
   <div class="container text-center">
-    <h3>What We Do</h3>
-    <br>
-    <div class="row">
-      <div class="col-sm-4">
-        <p>Style Solver</p>
-        <div class="input-group">
-          <input type="text" class="form-control" placeholder="Color" aria-describedby="basic-addon1">
-          <input type="text" class="form-control" placeholder="ABV" aria-describedby="basic-addon1">
-          <input type="text" class="form-control" placeholder="IBU" aria-describedby="basic-addon1">
-          
-        </div>
-        <span class="input-group-btn">
-            <button class="btn btn-default" type="button" id="style_search">Search!</button>
-          </span>
+      <div class="row">
+      <div class="col-sm-6">
+        <h3>Style Solver</h3>
+        <p>We've tried to classify home brews into 10 broad categories... not an easy task (and lots of interpretation). Tell us a few things about your beer, and see if we can guess where it falls.</p>
+        <form method="POST">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Color" aria-describedby="basic-addon1" name = "color">
+            <input type="text" class="form-control" placeholder="ABV" aria-describedby="basic-addon1" name = "abv" >
+            <input type="text" class="form-control" placeholder="IBU" aria-describedby="basic-addon1" name = "ibu">
 
+          </div>
+          <span class="input-group-btn">
+            <input class="btn btn-default" type="submit" id="style_search">Search!</input>
+          </span>
+        </form>
+        <p>returned values: {{ color }}, {{ abv }}, {{ ibu }}</p>
       </div>
-      <div class="col-sm-4">
-        <p>Recipe Trends</p>
-        <div class="dropdown">
-          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="true">
-            Choose Your Style!
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" id="styleSelectorDropDown">
-          </ul>
-        </div>
-      </div>
-      <div class="col-sm-4">
-        <p>Try Something New!</p>
+      <div class="col-sm-6">
+        <h3>Try Something New!</h3>
+        <p>Take a chance and try something new. Pick a style you like, and a beer within that style (from the list). We'll give you suggestions of other beers with similar characteristics we think you'd enjoy!<p>
         <div class="row-fluid">
-          <select class="selectpicker" data-live-search-style="startwith" data-show-subtext="true" data-live-search="true" id="beers_dropdown">
-            <option data-subtext="Rep California">Tom Foolery</option>
-            <option data-subtext="Sen California">Bill Gordon</option>
-            <option data-subtext="Sen Massacusetts">Elizabeth Warren</option>
-            <option data-subtext="Rep Alabama">Mario Flores</option>
-            <option data-subtext="Rep Alaska">Don Young</option>
-            <option data-subtext="Rep California">Marvin Martinez</option>
-          </select>
+          <form method="POST">
+            <select class="selectpicker" data-live-search-style="startwith" data-show-subtext="true" data-live-search="true" id="styles_dropdown"
+              title="Choose a style" name="style">
+            </select>
+            <select class="selectpicker" data-live-search-style="startwith" data-show-subtext="true" data-live-search="true" id="beers_dropdown"
+              title="Choose a beer" name="beer" disabled>
+            </select>
+          </form>
         </div>
       </div>
     </div>
@@ -139,10 +128,10 @@
   <br>
 
   <footer class="container-fluid text-center">
-    <p>Footer Text</p>
+    <p>You're reached the bottom - time to pour another.</p>
   </footer>
 
 </body>
-<script src="static/index.js"></script>
+
 
 </html>
