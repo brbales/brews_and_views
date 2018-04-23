@@ -23,26 +23,23 @@ class Beer(db.Model):
 
     id = db.Column(db.Integer, primary_key = True)
 
-    name = db.Column(db.String(99))
-    url = db.Column(db.String(299))
-    style = db.Column(db.String(99))
-    style_Id = db.Column(db.Integer())
-    size_L = db.Column(db.Float())
-    og = db.Column(db.Float())
-    fg = db.Column(db.Float(20))
-    abv = db.Column(db.Float(20))
-    ibu = db.Column(db.Float(20))
-    color = db.Column(db.Float(20))
-    boil_size = db.Column(db.Float(20))
-    boil_time = db.Column(db.Integer())
-    boil_gravity = db.Column(db.Float(20))
-    effeciency = db.Column(db.Float(20))
-    mash_thickness = db.Column(db.Float(20))
-    sugar_scale = db.Column(db.String(99))
-    brew_method = db.Column(db.String(99))
-    view_count = db.Column(db.Float(20))
-    brew_count = db.Column(db.Float(20))
-    last_upadted = db.Column(db.Float(20))
+    Name = db.Column(db.String(99))
+    Style = db.Column(db.String(99))
+    StyleId = db.Column(db.Integer())
+    OG = db.Column(db.Float())
+    FG = db.Column(db.Float(20))
+    ABV = db.Column(db.Float(20))
+    IBU = db.Column(db.Float(20))
+    Color = db.Column(db.Float(20))
+    BoilSize = db.Column(db.Float(20))
+    BoilTime = db.Column(db.Integer())
+    Effeciency = db.Column(db.Float(20))
+    ViewCount = db.Column(db.Float(20))
+    BrewCount = db.Column(db.Float(20))
+    LastUpdated = db.Column(db.Float(20))
+    Category = db.Column(db.String(99))
+    clusters_7param = db.Column(db.Integer())
+    clusters_3param = db.Column(db.Integer())
 
 
 @app.route("/", methods = ['GET','POST'])
@@ -81,14 +78,20 @@ def style_guesses():
             # Then get the data from the form
             selected_beer = request.form['beer_search']
 
-            selected_beer_cluster = db.session.query(Beer.cluster_7param).filter(Beer.name = selected_beer)
 
-             #ETHAN pick up her - write a query to pull and display names and style, abv, ibu, and color for 5
-             #random beers of the same cluster... starter code below
-            rec_beer_info = db.session.query(Beer.name, Beer.style,Beer.abv,Beer.ibu, Beer.color)
-            .filter(Beer.cluster_7param = selected_beer_cluster)
+            selected_beer_cluster = db.session.query(Beer.clusters_7param, func.count(Beer.clusters_7param).label('amount')).\
+            filter(Beer.Name == selected_beer).\
+            group_by(Beer.clusters_7param).order_by(desc('amount')).all()[0][0]
 
-            return jsonify(rec_beer_info)
+
+            rec_beer_info = db.session.query(Beer.Name, Beer.Style, Beer.ABV, Beer.IBU, Beer.Color).\
+            filter(Beer.clusters_7param == selected_beer_cluster, Beer.Name != selected_beer).\
+            order_by(func.random()).\
+            limit(5).all()
+
+    
+
+        return jsonify(rec_beer_info)
 
 #after we get the json response right (server is acting right).
 #then use ajax to send the 
@@ -107,27 +110,13 @@ def names():
 
     return jsonify(results)
 
-#Form in index.html will have a post method, call the POST
-def server():
-    if request.method == 'POST':
-        # Then get the data from the form
-        selected_beer = request.form['beer_input']
-
-        selected_beer_cluster = db.session.query(Beer.cluster_7param).filter(Beer.name = selected_beer)
-
-         #ETHAN pick up her - write a query to pull and display names and style, abv, ibu, and color for 5
-         #random beers of the same cluster... starter code below
-        rec_beer_info = db.session.query(Beer.name, Beer.style,Beer.abv,Beer.ibu, Beer.color)
-        .filter(Beer.cluster_7param = selected_beer_cluster)
-
-        return rec_beer_info
 
 
 #CODE FOR AFTER THE MODEL RETURNS A CLUSTER
 def rec_beers():
 
     predicted_cluster = #INSERT NAME FOR MODEL OUTPUT
-    rec_beer_info = db.session.query(Beer.name, Beer.style,Beer.abv,Beer.ibu, Beer.color)
+    rec_beer_info = db.session.query(Beer.name, Beer.style,Beer.abv,Beer.ibu, Beer.color)\
     .filter(Beer.cluster_7param = predicted_cluster)
 
 if __name__ == '__main__':
