@@ -96,7 +96,7 @@
       <div class="col-sm-6">
         <h3>Style Solver</h3>
         <p>We've tried to classify home brews into 10 broad categories... not an easy task (and lots of interpretation). Tell us a few things about your beer, and see if we can guess where it falls.</p>
-        <form method="POST">
+        <form method="POST" action = "/style_guesses">
           <div class="input-group">
             <input type="text" class="form-control" placeholder="Color" aria-describedby="basic-addon1" name = "color">
             <input type="text" class="form-control" placeholder="ABV" aria-describedby="basic-addon1" name = "abv" >
@@ -112,7 +112,19 @@
       <div class="col-sm-6">
         <h3>Try Something New!</h3>
         <p>Take a chance and try something new. Pick a style you like, and a beer within that style (from the list). We'll give you suggestions of other beers with similar characteristics we think you'd enjoy!<p>
-        <div class="row-fluid">
+        
+
+        <form method="POST" action="/recommendations">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Color" aria-describedby="basic-addon1" name = "beer_style">
+            <input type="text" class="form-control" placeholder="Color" aria-describedby="basic-addon1" name = "beer_input">
+          </div>
+          <span class="input-group-btn">
+            <input class="btn btn-default" type="submit" id="beer_search">Input Beer</input>
+          </span>
+
+          Shey's old input
+        <!-- <div class="row-fluid">
           <form method="POST">
             <select class="selectpicker" data-live-search-style="startwith" data-show-subtext="true" data-live-search="true" id="styles_dropdown"
               title="Choose a style" name="style">
@@ -121,7 +133,8 @@
               title="Choose a beer" name="beer" disabled>
             </select>
           </form>
-        </div>
+        </div> -->
+      
       </div>
     </div>
   </div>

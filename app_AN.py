@@ -115,24 +115,19 @@ def server():
 
         selected_beer_cluster = db.session.query(Beer.cluster_7param).filter(Beer.name = selected_beer)
 
+         #ETHAN pick up her - write a query to pull and display names and style, abv, ibu, and color for 5
+         #random beers of the same cluster... starter code below
+        rec_beer_info = db.session.query(Beer.name, Beer.style,Beer.abv,Beer.ibu, Beer.color)
+        .filter(Beer.cluster_7param = selected_beer_cluster)
 
-     #ETHAN pick up her - write a query to pull and display names and style, abv, ibu, and color for 5
-     #random beers of the same cluster... starter code below
-
-    rec_beer_info = db.session.query(Beer.name, Beer.style, Beer.abv, Beer.ibu, Beer.color)\
-    .filter(Beer.cluster_7param = selected_beer_cluster)\
-    .filter(Beer.name != selected_beer)\
-    .order_by(func.random(5))
-    
-
-    return rec_beer_info
+        return rec_beer_info
 
 
 #CODE FOR AFTER THE MODEL RETURNS A CLUSTER
 def rec_beers():
 
     predicted_cluster = #INSERT NAME FOR MODEL OUTPUT
-    rec_beer_info = db.session.query(Beer.name, Beer.style,Beer.abv,Beer.ibu, Beer.color)\
+    rec_beer_info = db.session.query(Beer.name, Beer.style,Beer.abv,Beer.ibu, Beer.color)
     .filter(Beer.cluster_7param = predicted_cluster)
 
 if __name__ == '__main__':
