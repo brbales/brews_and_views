@@ -19,6 +19,7 @@ $(document).ready(function () {
     });
     $('#beerDropdown').attr('disabled', true);
     $("#styleDropdown").change(function () {
+        // $('#suggestion').remove(5);
         $('#beerDropdown').empty();
         $('#beerDropdown').attr('disabled', false);
         var query = $(this).val();
@@ -57,7 +58,7 @@ $(document).ready(function () {
                         return value.trim().replace(/\s/g, '%20');
                     }
                     console.log(beer[index][0]);
-                    $('#suggestions_list').append('<p><b>Name:</b> ' + beer[index][0] + " <b>Style:</b> " + beer[index][1] + " <b>ABV:</b> " + beer[index][2] + " <b>IBU:</b> " + beer[index][3] + " <b>Color:</b> " + beer[index][4] + "</p>")
+                    $('#suggestions_list').append('<p id="suggestion"><b>Name:</b> ' + beer[index][0] + " <b>Style:</b> " + beer[index][1] + " <b>ABV:</b> " + beer[index][2] + " <b>IBU:</b> " + beer[index][3] + " <b>Color:</b> " + beer[index][4] + "</p>")
 
                     /*$("#beerDropdown").append('<option value=' + value + ">" + value + "</option>").selectpicker('refresh') */
 
