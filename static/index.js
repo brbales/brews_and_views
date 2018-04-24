@@ -1,26 +1,25 @@
 $(document).ready(function () {
     var datas = $.get("/style", function (style) {
-       $.ajax({
-           type: "GET",
-           url: "http://localhost:5000/",
-           data: style,
-           dataType: "json",
-           success:
-               $.each(style, function(index,value){
-                   console.log(value);
-                   $("#styleDropdown").append('<li><a class="dropdown-item" href="#">'+value+"</a></li>").selectpicker('refresh')
-               })
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:5000/",
+            data: style,
+            dataType: "json",
+            success: $.each(style, function (index, value) {
+                console.log(value);
+                $("#styleDropdown").append('<li><a class="dropdown-item" href="#">' + value + "</a></li>").selectpicker('refresh')
+            })
 
 
-       })
-   }); 
+        })
+    });
 
-  
+
 })
 
-$('#styleDropdown li').click(function(){
-   $('#styles').html($(this).text() + '<span class="caret"></span>')
-   })
+$('#styleDropdown li').click(function () {
+    $('#styles').html($(this).text() + '<span class="caret"></span>')
+})
 
 
 /* $('select[name="country"]').on('change', function() {
