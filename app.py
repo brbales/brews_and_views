@@ -9,6 +9,7 @@ from flask import (
     redirect)
 import numpy as np
 import try_something_new as tsn
+import json
 
 # Create app
 app = Flask(__name__)
@@ -47,17 +48,21 @@ class Beer(db.Model):
 
 def index():
     if request.method == "POST":
-        abv = request.form['abv']
-        ibu = request.form['ibu']
-        color = request.form['color']
+        abv = int(request.form['abv'])
+        ibu = int(request.form['ibu'])
+        color = int(request.form['color'])
         inputs = [abv, ibu, color]
         answer_dict = tsn.user_predict(inputs)
         names = []
         pcts = []
+        
+
         for key, value in answer_dict.items():
             names.append(key)
             pcts.append("{0:.0f}%".format(value * 100))
         return render_template('index.html', topName = names[0], topPct = pcts[0], secondName = names[1], secondPct = pcts[1], thirdName = names[2], thirdPct = pcts[2])
+        
+        
     else:
         return render_template('index.html')
 
@@ -81,26 +86,31 @@ def style_guesses():
         return render_template('index.html')
 
 #setup a route to recommend beers (drives Action in forms), return a jsonified response
-@app.route('/recommendations')
-def reco():
-    if request.method == 'POST':
-        # Then get the data from the form
-        selected_beer = request.form['beer_search']
+@app.route('/recommendations/<beer>')
+def reco(beer):
+    # Then get the data from the form
+    #selected_beer = request.form['beer_search']
+    selected_beer_cluster = db.session.query(Beer.clusters_7param, func.count(Beer.clusters_7param).label('amount')).\
+    filter(Beer.Name == beer).\
+    group_by(Beer.clusters_7param).order_by(desc('amount')).all()[0][0]
 
+    rec_beer_info = db.session.query(Beer.Name, Beer.Style, Beer.ABV, Beer.IBU, Beer.Color).\
+    filter(Beer.clusters_7param == selected_beer_cluster, Beer.Name != beer).\
+    order_by(func.random()).\
+    limit(5).all()
 
-        selected_beer_cluster = db.session.query(Beer.clusters_7param, func.count(Beer.clusters_7param).label('amount')).\
-        filter(Beer.Name == selected_beer).\
-        group_by(Beer.clusters_7param).order_by(desc('amount')).all()[0][0]
+    return jsonify(rec_beer_info)
 
+@app.route('/beers/<beer_style>')
+def beers_list(beer_style):
+    # Then get the data from the form
+    #selected_beer = request.form['beer_search']
+    
+    list_beers = db.session.query(Beer.Name).filter(Beer.Style == beer_style).order_by(Beer.Name).all()
+    b = np.ravel(list_beers)
+    results = b.tolist()
 
-        rec_beer_info = db.session.query(Beer.Name, Beer.Style, Beer.ABV, Beer.IBU, Beer.Color).\
-        filter(Beer.clusters_7param == selected_beer_cluster, Beer.Name != selected_beer).\
-        order_by(func.random()).\
-        limit(5).all()
-
-
-
-        return jsonify(rec_beer_info)
+    return jsonify(results)
 
 #after we get the json response right (server is acting right).
 #then use ajax to send the 

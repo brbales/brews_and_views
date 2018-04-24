@@ -102,7 +102,7 @@
         <h3>Style Solver</h3>
         <p>We've tried to classify home brews into 10 broad categories... not an easy task (and lots of interpretation). Tell
           us a few things about your beer, and see if we can guess where it falls.</p>
-        <form method="POST">
+        <form method="POST" id="infoForm" >
           <div class="input-group">
             <input type="text" class="form-control" placeholder="ABV (Range: 0-55)" aria-describedby="basic-addon1" name="abv">
             <input type="text" class="form-control" placeholder="IBU (Range: 0-3,410)" aria-describedby="basic-addon1" name="ibu">
@@ -113,32 +113,29 @@
             <input class="btn btn-default" type="submit" id="style_search">Search!</input>
           </span>
         </form>
-        <p>Top choice: {{ topName }}, {{ topPct }}</p>
-        <p>Second choice: {{ secondName }}, {{ secondPct }}</p>
-        <p>Third Choice: {{ thirdName }}, {{ thirdPct }}</p>
+        <div id = "choices">
+          <p><b>Top choice:</b> {{ topName }}, {{ topPct }}</p>
+          <p><b>Second choice:</b> {{ secondName }}, {{ secondPct }}</p>
+          <p><b>Third Choice:</b> {{ thirdName }}, {{ thirdPct }}</p>
+        </div>
       </div>
       <div class="col-sm-6">
         <h3>Try Something New!</h3>
         <p>Take a chance and try something new. Pick a style you like, and a beer within that style (from the list). We'll give
           you suggestions of other beers with similar characteristics we think you'd enjoy!
         </p>
-        <!-- <form method="POST">
-            <select class="selectpicker" data-live-search-style="startwith" data-show-subtext="true" data-live-search="true" id="styles_dropdown"
-              title="Choose a style" name="style">
-            </select>
-            <select class="selectpicker" data-live-search-style="startwith" data-show-subtext="true" data-live-search="true" id="beers_dropdown"
-              title="Choose a beer" name="beer" disabled>
-            </select>
-          </form> -->
-        <div class="dropup">
-          <button class="btn btn-default dropdown-toggle" type="button" id="styleDropdownButton" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="true">
-            Style
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu scrollable-menu" aria-labelledby="styles" id="styleDropdown">
-          </ul>
+        <div class="form-group" method = "POST">
+          <select class="form-control" aria-labelledby="styles" id="styleDropdown" name="style"></select>
+          <select class="form-control" aria-labelledby="beers" id="beerDropdown"name="beer_choice"></select>
+          <span class="input-group-btn">
+              <input class="btn btn-default" type="submit" id="beer_search">Search!</input>
+            </span>
         </div>
+        <p><b>Our Suggestions:</b></p>
+        <div id="suggestions_list"></div>
+     
+        
+
 
       </div>
     </div>
