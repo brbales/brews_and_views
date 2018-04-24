@@ -8,6 +8,7 @@ from flask import (
     request,
     redirect)
 import numpy as np
+import try_something_new as tsn
 
 # Create app
 app = Flask(__name__)
@@ -44,19 +45,26 @@ class Beer(db.Model):
 
 @app.route("/", methods = ['GET','POST'])
 
-'''def index():
+def index():
     if request.method == "POST":
-        color = request.form['color']
         abv = request.form['abv']
         ibu = request.form['ibu']
-        return render_template('index.html', color = color, abv = abv, ibu = ibu)
+        color = request.form['color']
+        inputs = [abv, ibu, color]
+        answer_dict = tsn.user_predict(inputs)
+        names = []
+        pcts = []
+        for key, value in answer_dict.items():
+            names.append(key)
+            pcts.append("{0:.0f}%".format(value * 100))
+        return render_template('index.html', topName = names[0], topPct = pcts[0], secondName = names[1], secondPct = pcts[1], thirdName = names[2], thirdPct = pcts[2])
     else:
-        return render_template('index.html')'''
+        return render_template('index.html')
 
 @app.route('/style')
 def style():
 
-    result = db.session.query(Beer.style.distinct()).filter(Beer.style != None).order_by(Beer.style).all()
+    result = db.session.query(Beer.Style.distinct()).filter(Beer.Style != None).order_by(Beer.Style).all()
 
     b = np.ravel(result)
     results = b.tolist()
@@ -68,28 +76,29 @@ def style_guesses():
         color = request.form['color']
         abv = request.form['abv']
         ibu = request.form['ibu']
-        return jsonified(color, abv, ibu)
+        return jsonify(color, abv, ibu)
     else:
         return render_template('index.html')
 
 #setup a route to recommend beers (drives Action in forms), return a jsonified response
 @app.route('/recommendations')
+def reco():
     if request.method == 'POST':
-            # Then get the data from the form
-            selected_beer = request.form['beer_search']
+        # Then get the data from the form
+        selected_beer = request.form['beer_search']
 
 
-            selected_beer_cluster = db.session.query(Beer.clusters_7param, func.count(Beer.clusters_7param).label('amount')).\
-            filter(Beer.Name == selected_beer).\
-            group_by(Beer.clusters_7param).order_by(desc('amount')).all()[0][0]
+        selected_beer_cluster = db.session.query(Beer.clusters_7param, func.count(Beer.clusters_7param).label('amount')).\
+        filter(Beer.Name == selected_beer).\
+        group_by(Beer.clusters_7param).order_by(desc('amount')).all()[0][0]
 
 
-            rec_beer_info = db.session.query(Beer.Name, Beer.Style, Beer.ABV, Beer.IBU, Beer.Color).\
-            filter(Beer.clusters_7param == selected_beer_cluster, Beer.Name != selected_beer).\
-            order_by(func.random()).\
-            limit(5).all()
+        rec_beer_info = db.session.query(Beer.Name, Beer.Style, Beer.ABV, Beer.IBU, Beer.Color).\
+        filter(Beer.clusters_7param == selected_beer_cluster, Beer.Name != selected_beer).\
+        order_by(func.random()).\
+        limit(5).all()
 
-    
+
 
         return jsonify(rec_beer_info)
 
@@ -113,11 +122,6 @@ def names():
 
 
 #CODE FOR AFTER THE MODEL RETURNS A CLUSTER
-def rec_beers():
-
-    predicted_cluster = #INSERT NAME FOR MODEL OUTPUT
-    rec_beer_info = db.session.query(Beer.name, Beer.style,Beer.abv,Beer.ibu, Beer.color)\
-    .filter(Beer.cluster_7param = predicted_cluster)
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
