@@ -6,9 +6,11 @@
   <meta charset="utf-8">
   <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
 
@@ -67,12 +69,15 @@
           alt="Image">
         <div class="carousel-caption">
           <h3>Neural Networks - Competing with your Local Beer Snob</h3>
-          <p>We've had some fun with neural networks and unsupervised clustering to develop models to do two things: (1) predict beer styles based on physical characteristics, and (2) characterize beer "clusters" based on a set of key parameters. Model 2 (our favorite), results in latent, math-based classifications (or "clusters") of beer types a little different from your typical "IPA" vs "Stout" vs "Blonde" categories. Have fun playing with the tools below!</p>
+          <p>We've had some fun with neural networks and unsupervised clustering to develop models to do two things: (1) predict
+            beer styles based on physical characteristics, and (2) characterize beer "clusters" based on a set of key parameters.
+            Model 2 (our favorite), results in latent, math-based classifications (or "clusters") of beer types a little
+            different from your typical "IPA" vs "Stout" vs "Blonde" categories. Have fun playing with the tools below!</p>
         </div>
       </div>
 
       <div class="item">
-        <img src="https://placehold.it/1800x500?text=Another Image Maybe" alt="Image">
+        <img src="../static/spm_7param_header.png" alt="Image">
         <div class="carousel-caption">
           <h3>More Sell $</h3>
           <p>Lorem ipsum...</p>
@@ -92,36 +97,46 @@
   </div>
 
   <div class="container text-center">
-      <div class="row">
+    <div class="row">
       <div class="col-sm-6">
         <h3>Style Solver</h3>
-        <p>We've tried to classify home brews into 10 broad categories... not an easy task (and lots of interpretation). Tell us a few things about your beer, and see if we can guess where it falls.</p>
-        <form method="POST">
+        <p>We've tried to classify home brews into 10 broad categories... not an easy task (and lots of interpretation). Tell
+          us a few things about your beer, and see if we can guess where it falls.</p>
+        <form method="POST" id="infoForm" >
           <div class="input-group">
-            <input type="text" class="form-control" placeholder="Color" aria-describedby="basic-addon1" name = "color">
-            <input type="text" class="form-control" placeholder="ABV" aria-describedby="basic-addon1" name = "abv" >
-            <input type="text" class="form-control" placeholder="IBU" aria-describedby="basic-addon1" name = "ibu">
+            <input type="text" class="form-control" placeholder="ABV (Range: 0-55)" aria-describedby="basic-addon1" name="abv">
+            <input type="text" class="form-control" placeholder="IBU (Range: 0-3,410)" aria-describedby="basic-addon1" name="ibu">
+            <input type="text" class="form-control" placeholder="Color (Range: 0-186)" aria-describedby="basic-addon1" name="color">
 
           </div>
           <span class="input-group-btn">
             <input class="btn btn-default" type="submit" id="style_search">Search!</input>
           </span>
         </form>
-        <p>returned values: {{ color }}, {{ abv }}, {{ ibu }}</p>
+        <div id = "choices">
+          <p><b>Top choice:</b> {{ topName }}, {{ topPct }}</p>
+          <p><b>Second choice:</b> {{ secondName }}, {{ secondPct }}</p>
+          <p><b>Third Choice:</b> {{ thirdName }}, {{ thirdPct }}</p>
+        </div>
       </div>
       <div class="col-sm-6">
         <h3>Try Something New!</h3>
-        <p>Take a chance and try something new. Pick a style you like, and a beer within that style (from the list). We'll give you suggestions of other beers with similar characteristics we think you'd enjoy!<p>
-        <div class="row-fluid">
-          <form method="POST">
-            <select class="selectpicker" data-live-search-style="startwith" data-show-subtext="true" data-live-search="true" id="styles_dropdown"
-              title="Choose a style" name="style">
-            </select>
-            <select class="selectpicker" data-live-search-style="startwith" data-show-subtext="true" data-live-search="true" id="beers_dropdown"
-              title="Choose a beer" name="beer" disabled>
-            </select>
-          </form>
+        <p>Take a chance and try something new. Pick a style you like, and a beer within that style (from the list). We'll give
+          you suggestions of other beers with similar characteristics we think you'd enjoy!
+        </p>
+        <div class="form-group" method = "POST">
+          <select class="form-control" aria-labelledby="styles" id="styleDropdown" name="style"></select>
+          <select class="form-control" aria-labelledby="beers" id="beerDropdown"name="beer_choice"></select>
+          <span class="input-group-btn">
+              <input class="btn btn-default" type="submit" id="beer_search">Search!</input>
+            </span>
         </div>
+        <p><b>Our Suggestions:</b></p>
+        <div id="suggestions_list"></div>
+     
+        
+
+
       </div>
     </div>
   </div>

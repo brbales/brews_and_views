@@ -8,6 +8,8 @@ from flask import (
     request,
     redirect)
 import numpy as np
+import try_something_new as tsn
+import json
 
 # Create app
 app = Flask(__name__)
@@ -23,43 +25,51 @@ class Beer(db.Model):
 
     id = db.Column(db.Integer, primary_key = True)
 
-    name = db.Column(db.String(99))
-    url = db.Column(db.String(299))
-    style = db.Column(db.String(99))
-    style_Id = db.Column(db.Integer())
-    size_L = db.Column(db.Float())
-    og = db.Column(db.Float())
-    fg = db.Column(db.Float(20))
-    abv = db.Column(db.Float(20))
-    ibu = db.Column(db.Float(20))
-    color = db.Column(db.Float(20))
-    boil_size = db.Column(db.Float(20))
-    boil_time = db.Column(db.Integer())
-    boil_gravity = db.Column(db.Float(20))
-    effeciency = db.Column(db.Float(20))
-    mash_thickness = db.Column(db.Float(20))
-    sugar_scale = db.Column(db.String(99))
-    brew_method = db.Column(db.String(99))
-    view_count = db.Column(db.Float(20))
-    brew_count = db.Column(db.Float(20))
-    last_upadted = db.Column(db.Float(20))
+    Name = db.Column(db.String(99))
+    Style = db.Column(db.String(99))
+    StyleId = db.Column(db.Integer())
+    OG = db.Column(db.Float())
+    FG = db.Column(db.Float(20))
+    ABV = db.Column(db.Float(20))
+    IBU = db.Column(db.Float(20))
+    Color = db.Column(db.Float(20))
+    BoilSize = db.Column(db.Float(20))
+    BoilTime = db.Column(db.Integer())
+    Effeciency = db.Column(db.Float(20))
+    ViewCount = db.Column(db.Float(20))
+    BrewCount = db.Column(db.Float(20))
+    LastUpdated = db.Column(db.Float(20))
+    Category = db.Column(db.String(99))
+    clusters_7param = db.Column(db.Integer())
+    clusters_3param = db.Column(db.Integer())
 
 
 @app.route("/", methods = ['GET','POST'])
 
-'''def index():
+def index():
     if request.method == "POST":
-        color = request.form['color']
-        abv = request.form['abv']
-        ibu = request.form['ibu']
-        return render_template('index.html', color = color, abv = abv, ibu = ibu)
+        abv = int(request.form['abv'])
+        ibu = int(request.form['ibu'])
+        color = int(request.form['color'])
+        inputs = [abv, ibu, color]
+        answer_dict = tsn.user_predict(inputs)
+        names = []
+        pcts = []
+        
+
+        for key, value in answer_dict.items():
+            names.append(key)
+            pcts.append("{0:.0f}%".format(value * 100))
+        return render_template('index.html', topName = names[0], topPct = pcts[0], secondName = names[1], secondPct = pcts[1], thirdName = names[2], thirdPct = pcts[2])
+        
+        
     else:
-        return render_template('index.html')'''
+        return render_template('index.html')
 
 @app.route('/style')
 def style():
 
-    result = db.session.query(Beer.style.distinct()).filter(Beer.style != None).order_by(Beer.style).all()
+    result = db.session.query(Beer.Style.distinct()).filter(Beer.Style != None).order_by(Beer.Style).all()
 
     b = np.ravel(result)
     results = b.tolist()
@@ -71,24 +81,36 @@ def style_guesses():
         color = request.form['color']
         abv = request.form['abv']
         ibu = request.form['ibu']
-        return jsonified(color, abv, ibu)
+        return jsonify(color, abv, ibu)
     else:
         return render_template('index.html')
 
 #setup a route to recommend beers (drives Action in forms), return a jsonified response
-@app.route('/recommendations')
-    if request.method == 'POST':
-            # Then get the data from the form
-            selected_beer = request.form['beer_search']
+@app.route('/recommendations/<beer>')
+def reco(beer):
+    # Then get the data from the form
+    #selected_beer = request.form['beer_search']
+    selected_beer_cluster = db.session.query(Beer.clusters_7param, func.count(Beer.clusters_7param).label('amount')).\
+    filter(Beer.Name == beer).\
+    group_by(Beer.clusters_7param).order_by(desc('amount')).all()[0][0]
 
-            selected_beer_cluster = db.session.query(Beer.cluster_7param).filter(Beer.name = selected_beer)
+    rec_beer_info = db.session.query(Beer.Name, Beer.Style, Beer.ABV, Beer.IBU, Beer.Color).\
+    filter(Beer.clusters_7param == selected_beer_cluster, Beer.Name != beer).\
+    order_by(func.random()).\
+    limit(5).all()
 
-             #ETHAN pick up her - write a query to pull and display names and style, abv, ibu, and color for 5
-             #random beers of the same cluster... starter code below
-            rec_beer_info = db.session.query(Beer.name, Beer.style,Beer.abv,Beer.ibu, Beer.color)
-            .filter(Beer.cluster_7param = selected_beer_cluster)
+    return jsonify(rec_beer_info)
 
-            return jsonify(rec_beer_info)
+@app.route('/beers/<beer_style>')
+def beers_list(beer_style):
+    # Then get the data from the form
+    #selected_beer = request.form['beer_search']
+    
+    list_beers = db.session.query(Beer.Name).filter(Beer.Style == beer_style).order_by(Beer.Name).all()
+    b = np.ravel(list_beers)
+    results = b.tolist()
+
+    return jsonify(results)
 
 #after we get the json response right (server is acting right).
 #then use ajax to send the 
@@ -107,28 +129,9 @@ def names():
 
     return jsonify(results)
 
-#Form in index.html will have a post method, call the POST
-def server():
-    if request.method == 'POST':
-        # Then get the data from the form
-        selected_beer = request.form['beer_input']
-
-        selected_beer_cluster = db.session.query(Beer.cluster_7param).filter(Beer.name = selected_beer)
-
-         #ETHAN pick up her - write a query to pull and display names and style, abv, ibu, and color for 5
-         #random beers of the same cluster... starter code below
-        rec_beer_info = db.session.query(Beer.name, Beer.style,Beer.abv,Beer.ibu, Beer.color)
-        .filter(Beer.cluster_7param = selected_beer_cluster)
-
-        return rec_beer_info
 
 
 #CODE FOR AFTER THE MODEL RETURNS A CLUSTER
-def rec_beers():
-
-    predicted_cluster = #INSERT NAME FOR MODEL OUTPUT
-    rec_beer_info = db.session.query(Beer.name, Beer.style,Beer.abv,Beer.ibu, Beer.color)
-    .filter(Beer.cluster_7param = predicted_cluster)
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
