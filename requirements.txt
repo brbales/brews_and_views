@@ -1,0 +1,10 @@
+sqalchemy==1.1.13
+SQLAlchemy-Utils==0.32.21
+Flask-SQLAlchemy==2.3.2
+pandas==0.20.3
+numpy==1.13.3
+flask==0.12.2
+gunicorn==19.6.0
+tenserflow==1.1.0
+scikit-learn==0.19.1
+keras==2.1.5
