@@ -68,6 +68,26 @@ footer {
   min-height: 200px;
 }
 
+.carousel-caption h3 {
+  color: white;
+    text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
+  font-size: 25px;
+}
+
+.carousel-caption p{
+  color: white;
+    text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
+    font-size: 15px;
+}
+
 /* Hide the carousel text when the screen is less than 600 pixels wide */
 
 @media (max-width: 600px) {
