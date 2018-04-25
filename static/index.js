@@ -19,7 +19,6 @@ $(document).ready(function () {
     });
     $('#beerDropdown').attr('disabled', true);
     $("#styleDropdown").change(function () {
-        // $('#suggestion').remove(5);
         $('#beerDropdown').empty();
         $('#beerDropdown').attr('disabled', false);
         var query = $(this).val();
@@ -45,6 +44,7 @@ $(document).ready(function () {
 
     });
     $("#beerDropdown").change(function () {
+    	$("#suggestions_list").empty();
         var query = $(this).val();
         console.log(query);
         var datas = $.get(`/recommendations/${query}`, function (beer) {
